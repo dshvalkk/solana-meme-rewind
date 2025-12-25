@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Meme Rewind</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #9945FF, #14F195);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 40px;
+      font-size: 36px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    .bubble {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at 30% 30%,
+        rgba(255,255,255,0.9),
+        rgba(255,255,255,0.25)
+      );
+      box-shadow: 0 0 40px rgba(0,0,0,0.4);
+      cursor: pointer;
+      animation: float 3s ease-in-out infinite;
+      transition: 0.3s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+      100% { transform: translateY(0); }
+    }
+
+    .meme {
+      display: none;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .meme img {
+      max-width: 340px;
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.7);
+    }
+
+    .caption {
+      margin-top: 18px;
+      font-size: 26px;
+      font-weight: bold;
+      text-shadow: 0 0 12px rgba(0,0,0,0.6);
+    }
+
+    .rewind {
+      margin-top: 10px;
+      font-size: 18px;
+      opacity: 0.8;
+    }
+
+    .replay {
+      margin-top: 25px;
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: black;
+      color: #14F195;
+      box-shadow: 0 0 20px rgba(20,241,149,0.6);
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Solana Meme Rewind</h1>
+
+  <div class="bubble" id="bubble"></div>
+
+  <div class="meme" id="meme">
+    <img id="memeImg">
+    <div class="caption" id="caption"></div>
+    <div class="rewind">⏪ rewind</div>
+    <button class="replay" id="replayBtn">Replay</button>
+  </div>
+
+  <audio id="popSound"
+    src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_8c1a7e5d6f.mp3?filename=pop-94319.mp3"
+    preload="auto">
+  </audio>
+
+  <script>
+    const memes = [
+      { src: "https://i.imgur.com/W5bYF9F.png", caption: "Trollface" },
+      { src: "https://i.imgur.com/2yaf2wb.jpeg", caption: "Ibiza final boss" },
+      { src: "https://i.imgur.com/7qZ5FZQ.png", caption: "Shiba inu" }
+    ];
+
+    const bubble = document.getElementById("bubble");
+    const memeBlock = document.getElementById("meme");
+    const memeImg = document.getElementById("memeImg");
+    const caption = document.getElementById("caption");
+    const replayBtn = document.getElementById("replayBtn");
+    const popSound = document.getElementById("popSound");
+
+    bubble.addEventListener("click", () => {
+      const random = memes[Math.floor(Math.random() * memes.length)];
+
+      memeImg.src = random.src;
+      caption.textContent = random.caption;
+
+      popSound.pause();
+      popSound.currentTime = 0;
+      popSound.play().catch(() => {});
+
+      bubble.style.transform = "scale(1.7)";
+      bubble.style.opacity = "0";
+
+      setTimeout(() => {
+        bubble.style.display = "none";
+        memeBlock.style.display = "block";
+      }, 300);
+    });
+
+    replayBtn.addEventListener("click", () => {
+      memeBlock.style.display = "none";
+      bubble.style.display = "block";
+      bubble.style.opacity = "1";
+      bubble.style.transform = "scale(1)";
+    });
+  </script>
+
+</body>
+</html>
